@@ -2,6 +2,10 @@
 #include "DcfModule.h"
 
 
+DcfModule::DcfModule() : dcf(DCF_PIN, digitalPinToInterrupt(DCF_PIN))
+{
+
+}
 
 const std::string DcfModule::name()
 {
@@ -21,63 +25,34 @@ void DcfModule::setup()
     
 }
 
-void DcfModule::setup1()
+void DcfModule::setup1(bool conf)
 {
     dcf.Start();
 }
 
-void DcfModule::loop()
+void DcfModule::loop(bool conf)
 {
     
 }
 
-void DcfModule::loop1()
+void DcfModule::loop1(bool conf)
 {
-    delay(1000);
-    time_t DCFtime = dcf.getTime(); // Check if new DCF77 time is available
-    if (DCFtime != 0)
+    if(millis() - lastTimeShowed > 1000)
     {
-        logDebugP("Time is updated");
-        setTime(DCFtime);
+        lastTimeShowed = millis();
+        time_t DCFtime = dcf.getTime(); // Check if new DCF77 time is available
+        if (DCFtime != 0)
+        {
+            logDebugP("Time is updated");
+            setTime(DCFtime);
+        }
+        printTime();
     }
-    digitalClockDisplay();
+}
+
+void DcfModule::printTime()
+{
+    logInfoP("Time: %.2i:%.2i:%.2i %i-%i-%i ", hour(), minute(), second(), day(), month(), year());
 }
 
 DcfModule openknxDcfModule;
-
-
-/*
-#include <Arduino.h>
-#include <DCF77.h>
-
-DCF77 dcf(D5, digitalPinToInterrupt(D5));
-
-void setup()
-{
-    Serial.begin(115200);
-}
-
-void printDigits(int digits)
-{
-    // utility function for digital clock display: prints preceding colon and leading 0
-    Serial.print(":");
-    if (digits < 10)
-        Serial.print('0');
-    Serial.print(digits);
-}
-
-void digitalClockDisplay()
-{
-    // digital clock display of the time
-    Serial.print(hour());
-    printDigits(minute());
-    printDigits(second());
-    Serial.print(" ");
-    Serial.print(day());
-    Serial.print(" ");
-    Serial.print(month());
-    Serial.print(" ");
-    Serial.print(year());
-    Serial.println();
-}
-*/

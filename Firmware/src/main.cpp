@@ -8,7 +8,7 @@ void setup()
 {
 	const uint8_t firmwareRevision = 1;
 	openknx.init(firmwareRevision);
-	//openknx.addModule(1, openknxDcfModule);
+	openknx.addModule(1, openknxDcfModule);
 	openknx.addModule(3, openknxFileTransferModule);
 	openknx.setup();
 }
