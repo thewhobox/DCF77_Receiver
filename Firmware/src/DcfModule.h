@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "OpenKNX.h"
 #include "DCF77.h"
+#include "Timer.h"
 
 #define DCF_PIN 15
 
@@ -22,6 +23,7 @@ class DcfModule : public OpenKNX::Module
         DCF77 dcf;
 		void printTime();
 		unsigned long lastTimeShowed = 0;
+		Timer &timer = Timer::instance();
 
 };
 

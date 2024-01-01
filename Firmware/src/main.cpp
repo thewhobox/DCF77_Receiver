@@ -3,6 +3,7 @@
 #include "OpenKNX.h"
 #include "FileTransferModule.h"
 #include "DcfModule.h"
+#include "Logic.h"
 
 void setup()
 {
@@ -10,6 +11,7 @@ void setup()
 	openknx.init(firmwareRevision);
 	openknx.addModule(1, openknxDcfModule);
 	openknx.addModule(3, openknxFileTransferModule);
+	openknx.addModule(9, openknxLogic);
 	openknx.setup();
 }
 

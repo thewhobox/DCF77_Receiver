@@ -4,7 +4,7 @@
 
 DcfModule::DcfModule() : dcf(DCF_PIN, digitalPinToInterrupt(DCF_PIN))
 {
-
+    
 }
 
 const std::string DcfModule::name()
@@ -44,7 +44,16 @@ void DcfModule::loop1(bool conf)
         if (DCFtime != 0)
         {
             logDebugP("Time is updated");
-            setTime(DCFtime);
+            //setTime(DCFtime);
+            tm *newt = new tm();
+            newt->tm_year = year() - 1900;
+            newt->tm_mon = month() - 1;
+            newt->tm_mday = day();
+            newt->tm_hour = hour();
+            newt->tm_min = minute();
+            newt->tm_sec = second();
+            timer.setDateTimeFromBus(newt);
+            delete newt;
         }
         printTime();
     }
@@ -52,7 +61,7 @@ void DcfModule::loop1(bool conf)
 
 void DcfModule::printTime()
 {
-    logInfoP("Time: %.2i:%.2i:%.2i %i-%i-%i ", hour(), minute(), second(), day(), month(), year());
+    logInfoP("Time: %.2i:%.2i:%.2i %i-%i-%i ", timer.getHour(), timer.getMinute(), timer.getSecond(), timer.getDay(), timer.getMonth(), timer.getYear());
 }
 
 DcfModule openknxDcfModule;

@@ -13,6 +13,7 @@
 #define MAIN_OrderNumber "GW-REG1-Dali.01"
 #define MAIN_ParameterSize 1089
 #define MAIN_MaxKoNumber 1269
+#define MAIN_Version 1
 
 
 #define APP_daynight		0x0000
